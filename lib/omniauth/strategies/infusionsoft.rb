@@ -51,15 +51,12 @@ module OmniAuth
         fail!(:unknown_signature_algorithm, e)
       end
 
-      # NOTE If we're using code from the signed request then FB sets the redirect_uri to '' during the authorize
-      #      phase and it must match during the access_token phase:
-      #      https://github.com/infusionsoft/infusionsoft-php-sdk/blob/master/src/base_infusionsoft.php#L477
       def callback_url
-        if @authorization_code_from_signed_request_in_cookie
-          ''
-        else
-          options[:callback_url] || super
-        end
+        options[:callback_url] || super
+      end
+
+      def query_string
+        ""
       end
 
       def access_token_options
